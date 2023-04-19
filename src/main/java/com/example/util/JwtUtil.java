@@ -44,6 +44,11 @@ public class JwtUtil {
         }
         throw new MethodNotAllowedException("Jwt exception");
     }
-
+    public static JwtDTO authorization(String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
+        return jwtDTO;
+    }
 
 }

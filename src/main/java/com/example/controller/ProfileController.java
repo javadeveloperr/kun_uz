@@ -29,11 +29,29 @@ public class ProfileController {
         }
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
-
-    @GetMapping("")
-    public ResponseEntity<List<ProfileDTO>> getAll() {
-        return null;
+    @PostMapping("/update")
+    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
+                                             @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwtDTO = JwtUtil.authorization(authorization);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return ResponseEntity.ok(profileService.update(dto));
     }
+    @PostMapping("/update-detail")
+    public ResponseEntity<ProfileDTO> updateDetail(@RequestBody ProfileDTO dto,
+                                             @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwtDTO = JwtUtil.authorization(authorization);
+        return ResponseEntity.ok(profileService.updateDetail(dto, jwtDTO.getId()));
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<ProfileDTO>> getAll(@RequestHeader("Authorization") String authorization) {
+        JwtDTO jwtDTO = JwtUtil.authorization(authorization);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return ResponseEntity.ok(profileService.getAll());    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDTO> getById(@PathVariable("id") Integer id) {
@@ -41,8 +59,13 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id) {
-        return null;
+    public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id,
+                                                 @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwtDTO = JwtUtil.authorization(authorization);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return ResponseEntity.ok(profileService.delete(id));
     }
 
     @GetMapping("/pagination")
