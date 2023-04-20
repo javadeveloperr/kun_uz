@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO {
     private Integer id;
-    private String name_uz;
-    private String name_ru;
-    private String name_en;
+    private String nameUz;
+    private String nameRu;
+    private String nameEn;
 }
