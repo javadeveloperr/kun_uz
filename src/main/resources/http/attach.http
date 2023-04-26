@@ -1,0 +1,25 @@
+POST http://localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Nomsiz dizayn (2).jpg"
+
+< C:\Users\User\Downloads\Nomsiz dizayn (2).jpg
+
+### upload 2
+POST http://localhost:8080/api/v1/attach/upload2
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Nomsiz dizayn (2).jpg"
+
+< C:\Users\User\Downloads\Nomsiz dizayn (2).jpg
+
+### video
+POST http://localhost:8080/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="video_2022-04-28_00-17-21.mp4"
+
+< C:\telegram\video_2022-04-28_00-17-21.mp4

@@ -51,4 +51,25 @@ public class JwtUtil {
         return jwtDTO;
     }
 
+    public static String encode(String text) {
+        JwtBuilder jwtBuilder = Jwts.builder();
+        jwtBuilder.setIssuedAt(new Date());
+        jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
+        jwtBuilder.claim("email", text);
+        jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + (tokenLiveTime)));
+        jwtBuilder.setIssuer("Kunuz test portali");
+        return jwtBuilder.compact();
+    }
+    public static String decodeEmailVerification(String token) {
+        try {
+            JwtParser jwtParser = Jwts.parser();
+            jwtParser.setSigningKey(secretKey);
+            Jws<Claims> jws = jwtParser.parseClaimsJws(token);
+            Claims claims = jws.getBody();
+            return (String) claims.get("email");
+        } catch (JwtException e) {
+            e.printStackTrace();
+        }
+        throw new MethodNotAllowedException("Jwt exception");
+    }
 }
