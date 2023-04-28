@@ -1,13 +1,13 @@
 package com.example.controller;
 
 import com.example.dto.CategoryDTO;
-import com.example.dto.JwtDTO;
-import com.example.entity.ArticleTypeEntity;
+import com.example.dto.jwt.JwtDTO;
 import com.example.entity.CategoryEntity;
 import com.example.enums.ProfileRole;
 import com.example.exps.MethodNotAllowedException;
 import com.example.service.CategoryService;
 import com.example.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     @PostMapping({"", "/"})
-    public ResponseEntity<CategoryDTO> create(@RequestBody CategoryDTO dto,
+    public ResponseEntity<CategoryDTO> create(@RequestBody @Valid CategoryDTO dto,
                                                  @RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];
@@ -31,7 +31,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.create(dto));
     }
     @PostMapping( "/update")
-    public ResponseEntity<CategoryDTO> update(@RequestBody CategoryDTO dto,
+    public ResponseEntity<CategoryDTO> update(@RequestBody @Valid CategoryDTO dto,
                                                  @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.authorization(authorization);
         if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {

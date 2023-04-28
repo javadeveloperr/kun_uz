@@ -1,11 +1,9 @@
 package com.example.service;
 
-import com.example.dto.ProfileDTO;
+import com.example.dto.profile.ProfileDTO;
 import com.example.entity.ProfileEntity;
 import com.example.enums.GeneralStatus;
-import com.example.enums.ProfileRole;
 import com.example.exps.AppBadRequestException;
-import com.example.exps.MethodNotAllowedException;
 import com.example.repository.ProfileRepository;
 import com.example.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;

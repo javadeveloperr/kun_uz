@@ -1,7 +1,11 @@
 package com.example.controller;
 
-import com.example.dto.*;
+import com.example.dto.auth.AuthDTO;
+import com.example.dto.auth.AuthResponseDTO;
+import com.example.dto.auth.RegistrationDTO;
+import com.example.dto.auth.RegistrationResponseDTO;
 import com.example.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +17,11 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthDTO dto) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid AuthDTO dto) {
         return ResponseEntity.ok(authService.login(dto));
     }
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponseDTO> registration(@RequestBody RegistrationDTO dto) {
+    public ResponseEntity<RegistrationResponseDTO> registration(@RequestBody @Valid RegistrationDTO dto) {
         return ResponseEntity.ok(authService.registration(dto));
     }
     @GetMapping("/email/verification/{jwt}")

@@ -1,11 +1,12 @@
 package com.example.controller;
 
-import com.example.dto.JwtDTO;
-import com.example.dto.ProfileDTO;
+import com.example.dto.jwt.JwtDTO;
+import com.example.dto.profile.ProfileDTO;
 import com.example.enums.ProfileRole;
 import com.example.exps.MethodNotAllowedException;
 import com.example.service.ProfileService;
 import com.example.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProfileController {
     private ProfileService profileService;
 
     @PostMapping({"", "/"})
-    public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
+    public ResponseEntity<ProfileDTO> create(@RequestBody @Valid ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];
@@ -30,7 +31,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
     @PostMapping("/update")
-    public ResponseEntity<ProfileDTO> update(@RequestBody ProfileDTO dto,
+    public ResponseEntity<ProfileDTO> update(@RequestBody @Valid ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.authorization(authorization);
         if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
@@ -39,7 +40,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.update(dto));
     }
     @PostMapping("/update-detail")
-    public ResponseEntity<ProfileDTO> updateDetail(@RequestBody ProfileDTO dto,
+    public ResponseEntity<ProfileDTO> updateDetail(@RequestBody @Valid ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.authorization(authorization);
         return ResponseEntity.ok(profileService.updateDetail(dto, jwtDTO.getId()));

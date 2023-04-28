@@ -1,9 +1,9 @@
 package com.example.service;
 
-import com.example.dto.AuthDTO;
-import com.example.dto.AuthResponseDTO;
-import com.example.dto.RegistrationDTO;
-import com.example.dto.RegistrationResponseDTO;
+import com.example.dto.auth.AuthDTO;
+import com.example.dto.auth.AuthResponseDTO;
+import com.example.dto.auth.RegistrationDTO;
+import com.example.dto.auth.RegistrationResponseDTO;
 import com.example.entity.ProfileEntity;
 import com.example.enums.GeneralStatus;
 import com.example.enums.ProfileRole;
@@ -12,7 +12,6 @@ import com.example.exps.ItemNotFoundException;
 import com.example.repository.ProfileRepository;
 import com.example.util.JwtUtil;
 import com.example.util.MD5Util;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

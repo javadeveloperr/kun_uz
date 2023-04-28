@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.example.dto.region;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryDTO {
+public class RegionDTO {
     private Integer id;
     @NotNull(message = "name uz is empty")
     private String nameUz;

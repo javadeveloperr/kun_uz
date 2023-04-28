@@ -1,12 +1,13 @@
 package com.example.controller;
 
-import com.example.dto.ArticleTypeDTO;
-import com.example.dto.JwtDTO;
+import com.example.dto.article.ArticleTypeDTO;
+import com.example.dto.jwt.JwtDTO;
 import com.example.entity.ArticleTypeEntity;
 import com.example.enums.ProfileRole;
 import com.example.exps.MethodNotAllowedException;
 import com.example.service.ArticleTypeService;
 import com.example.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/article")
+@RequestMapping("/api/v1/article-type")
 public class ArticleTypeController {
     @Autowired
     private ArticleTypeService articleTypeService;
     @PostMapping({"", "/"})
-    public ResponseEntity<ArticleTypeDTO> create(@RequestBody ArticleTypeDTO dto,
+    public ResponseEntity<ArticleTypeDTO> create(@RequestBody @Valid ArticleTypeDTO dto,
                                                  @RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];
@@ -30,7 +31,7 @@ public class ArticleTypeController {
         return ResponseEntity.ok(articleTypeService.create(dto));
     }
     @PostMapping( "/update")
-    public ResponseEntity<ArticleTypeDTO> update(@RequestBody ArticleTypeDTO dto,
+    public ResponseEntity<ArticleTypeDTO> update(@RequestBody @Valid ArticleTypeDTO dto,
                                                  @RequestHeader("Authorization") String authorization) {
         JwtDTO jwtDTO = JwtUtil.authorization(authorization);
         if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {

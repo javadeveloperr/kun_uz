@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.example.dto.ArticleTypeDTO;
 import com.example.dto.CategoryDTO;
 import com.example.entity.CategoryEntity;
 import com.example.exps.AppBadRequestException;
@@ -62,5 +61,9 @@ public class CategoryService {
             entity.setName_en(dto.getNameEn());
         }
         return entity;
+    }
+
+    public CategoryEntity get(Integer categoryId) {
+        return categoryRepository.findById(categoryId).orElse(null);
     }
 }
