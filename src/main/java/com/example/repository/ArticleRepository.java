@@ -30,6 +30,6 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
 
     @Query("SELECT new ArticleEntity(id,title,description,attachId,publishedDate) From ArticleEntity " +
             "where status =:status and visible = true and id not in :idList " +
-            " order by createdDate desc limit 8")
+            " order by createdDate desc limit 8 ")
     List<ArticleEntity> find8ByTypeIdExceptIdLists(@Param("status") ArticleStatus status,
                                                    @Param("idList") List<String> idList);}
