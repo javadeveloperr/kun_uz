@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -61,9 +60,20 @@ public class ArticleEntity {
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
     @Column(name = "published_date")
-    private LocalDate publishedDate;
+    private LocalDateTime publishedDate;
     @Column(name = "visible")
     private Boolean visible = Boolean.TRUE;
     @Column(name = "view_count")
     private Integer viewCount;
+
+    public ArticleEntity() {
+    }
+
+    public ArticleEntity(String id, String title, String description, Integer attachId, LocalDateTime publishedDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.attachId = attachId;
+        this.publishedDate = publishedDate;
+    }
 }

@@ -1,10 +1,12 @@
 package com.example.service;
 
 
+import com.example.dto.AttachDTO;
 import com.example.entity.AttachEntity;
 import com.example.exps.ItemNotFoundException;
 import com.example.repository.AttachRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +24,8 @@ import java.util.UUID;
 
 @Service
 public class AttachService {
+    @Value("${server.host}")
+    private String serverHost;
     @Autowired
     private AttachRepository attachRepository;
     public String saveToSystem(MultipartFile file) {
@@ -79,6 +83,20 @@ public class AttachService {
             return new byte[0];
         }
     }
+    public byte[] loadImage2(String attachName) {
+        int lastIndex = attachName.lastIndexOf(".");
+        String id = attachName.substring(0, lastIndex);
+        AttachEntity attachEntity = get(id);
+        byte[] data;
+        try {
+            Path file = Paths.get("attaches/" + attachEntity.getPath() + "/" + attachEntity.getExtension());
+            data = Files.readAllBytes(file);
+            return data;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
     public byte[] open_general(String attachName) {
         byte[] data;
         try {
@@ -90,7 +108,7 @@ public class AttachService {
         }
         return new byte[0];
     }
-    public String saveToSystem3(MultipartFile file) {
+    public AttachDTO saveToSystem3(MultipartFile file) {
         try {
             String pathFolder = getYmDString(); // 2022/04/23
             File folder = new File("attaches/" + pathFolder);  // attaches/2023/04/26
@@ -112,7 +130,13 @@ public class AttachService {
             Path path = Paths.get("attaches/" + pathFolder + "/" + attachEntity.getId() + "." + extension);
             // attaches/2023/04/26/uuid().jpg
             Files.write(path, bytes);
-            return attachEntity.getId() + "." + extension;
+
+            AttachDTO dto = new AttachDTO();
+            dto.setId(attachEntity.getId());
+            dto.setOriginalName(file.getOriginalFilename());
+            dto.setUrl(serverHost + "/api/v1/attach/open/" + attachEntity.getId() + "." + extension);
+
+            return dto;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,5 +168,12 @@ public class AttachService {
             e.printStackTrace();
         }
         return new byte[0];
+    }
+
+    public AttachDTO getAttachLink(String attachId) {
+        AttachDTO dto = new AttachDTO();
+        dto.setId(attachId);
+        dto.setUrl(serverHost + "/api/v1/attach/open/" + attachId);
+        return dto;
     }
 }
